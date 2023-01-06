@@ -10,7 +10,7 @@ from kubric.renderer import Blender
 # --- CLI arguments
 parser = kb.ArgumentParser()
 parser.set_defaults(
-    frame_end=2000,
+    frame_end=20,
     resolution=(640, 480),
     scratch_dir="cubesat_v2/scratch"
 )
