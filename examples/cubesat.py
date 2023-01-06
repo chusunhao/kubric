@@ -2,6 +2,7 @@ import os
 import logging
 import numpy as np
 import bpy
+import pathlib
 
 import kubric as kb
 from kubric.renderer import Blender
@@ -9,38 +10,49 @@ from kubric.renderer import Blender
 # --- CLI arguments
 parser = kb.ArgumentParser()
 parser.set_defaults(
-    frame_end=20,
-    resolution=(480, 640),
+    frame_end=2000,
+    resolution=(640, 480),
+    scratch_dir="cubesat_v2/scratch"
 )
 FLAGS = parser.parse_args()
 
 # --- Common setups & resources
-scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
+scene, rng, _, scratch_dir = kb.setup(FLAGS)
 renderer = Blender(scene, scratch_dir,
                    samples_per_pixel=64,
                    background_transparency=True)
 
-import pathlib
 output_dir = pathlib.Path("./cubesat_v2")
 
 # --- Fetch shapenet
 # source_path = os.getenv("SHAPENET_GCP_BUCKET", "gs://kubric-unlisted/assets/ShapeNetCore.v2.json")
 # shapenet = kb.AssetSource.from_manifest(source_path)
 
+kubasic = kb.AssetSource.from_manifest("gs://kubric-public/assets/KuBasic/KuBasic.json")
+
+# Add Dome object
+dome = kubasic.create(asset_id="dome", name="dome", static=True, background=True)
+scene += dome
+# Set the texture
+dome_blender = dome.linked_objects[renderer]
+texture_node = dome_blender.data.materials[0].node_tree.nodes["Image Texture"]
+background_hdri_filename = "./panorama_image.png"
+texture_node.image = bpy.data.images.load(background_hdri_filename)
+
 # --- Add Klevr-like lights to the scene
 scene += kb.assets.utils.get_clevr_lights(rng=rng)
 scene.ambient_illumination = kb.Color(0.05, 0.05, 0.05)
 
 # --- Add shadow-catcher floor
-floor = kb.Cube(name="floor", scale=(100, 100, 1), position=(0, 0, -1))
-scene += floor
+# floor = kb.Cube(name="floor", scale=(100, 100, 1), position=(0, 0, -1))
+# scene += floor
 # Make the floor transparent except for catching shadows
 # Together with background_transparency=True (above) this results in
 # the background being transparent except for the object shadows.
-if bpy.app.version > (3, 0, 0):
-  floor.linked_objects[renderer].is_shadow_catcher = True
-else:
-  floor.linked_objects[renderer].cycles.is_shadow_catcher = True
+# if bpy.app.version > (3, 0, 0):
+#   floor.linked_objects[renderer].is_shadow_catcher = True
+# else:
+#   floor.linked_objects[renderer].cycles.is_shadow_catcher = True
 
 # --- Keyframe the camera
 scene.camera = kb.PerspectiveCamera(focal_length = 800, sensor_width = 36)
