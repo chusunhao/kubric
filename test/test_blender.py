@@ -141,3 +141,11 @@ def test_blender_samples_per_pixel_init(tmp_path):
   renderer = blender.Blender(core.Scene(), tmp_path, samples_per_pixel=256)
   assert renderer.samples_per_pixel == 256
   assert renderer.blender_scene.cycles.samples == 256
+
+
+if __name__ == "__main__":
+  # test_prepare_blender_object()
+  #
+  tmp_path = './tmp'
+  # test_blender_scene_properties(tmp_path)
+  test_blender_camera_on_init(tmp_path)

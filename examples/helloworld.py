@@ -22,13 +22,23 @@ logging.basicConfig(level="INFO")
 scene = kb.Scene(resolution=(256, 256))
 renderer = KubricRenderer(scene)
 
+# --- preprocessing custom objects
+obj = kb.FileBasedObject(
+  asset_id="custom",
+  render_filename="cube_sat_v2.obj",
+  # bounds=((-1, -1, -1), (1, 1, 1)),
+  simulation_filename=None, position=(0, 0, 0))
+
+scene += obj
+
 # --- populate the scene with objects, lights, cameras
-scene += kb.Cube(name="floor", scale=(10, 10, 0.1), position=(0, 0, -0.1))
-scene += kb.Sphere(name="ball", scale=1, position=(0, 0, 1.))
+# scene += kb.Cube(name="floor", scale=(10, 10, 0), position=(0, 0, 0))
+# scene += kb.Sphere(name="ball", scale=1, position=(0, 0, 1.))
 scene += kb.DirectionalLight(name="sun", position=(-1, -0.5, 3),
                              look_at=(0, 0, 0), intensity=1.5)
-scene += kb.PerspectiveCamera(name="camera", position=(3, -1, 4),
-                              look_at=(0, 0, 1))
+# scene += kb.PerspectiveCamera(name="camera", position=(0, 0, 3),
+#                               look_at=(0, 0, 0))
+scene += kb.OrthographicCamera(name="camera", position=(0, 0, 3), orthographic_scale=2.2, look_at=(0, 0, 0))
 
 # --- render (and save the blender file)
 renderer.save_state("output/helloworld.blend")

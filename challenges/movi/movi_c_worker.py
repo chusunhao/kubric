@@ -70,6 +70,10 @@ FLAGS = parser.parse_args()
 
 # --- Common setups & resources
 scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
+
+import pathlib
+scratch_dir = pathlib.Path("./examples/scratch_dir")
+
 simulator = PyBullet(scene, scratch_dir)
 renderer = Blender(scene, scratch_dir, samples_per_pixel=64)
 kubasic = kb.AssetSource.from_manifest(FLAGS.kubasic_assets)

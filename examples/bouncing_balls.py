@@ -35,11 +35,15 @@ parser.add_argument("--friction", type=float, default=.0)
 parser.add_argument("--shape", type=str, default="sphere")
 parser.add_argument("--color", type=str, default="uniform_hsv")
 
-parser.set_defaults(frame_end=24, frame_rate=12, width=128, height=128)
+# parser.set_defaults(frame_end=24, frame_rate=12, width=128, height=128)
 FLAGS = parser.parse_args()
 
 # --- Common setups & resources
 scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
+
+import pathlib
+scratch_dir = pathlib.Path("./examples/scratch_dir")
+
 simulator = PyBullet(scene, scratch_dir)
 renderer = Blender(scene, scratch_dir, use_denoising=True, adaptive_sampling=False)
 

@@ -15,7 +15,7 @@
 
 import re
 
-import pytest
+# import pytest
 import numpy as np
 from numpy.testing import assert_allclose
 import pyquaternion as pyquat
@@ -277,3 +277,10 @@ def test_keyframe_insert():
   assert change_argument.frame == 7
   assert change_argument.type == "keyframe"
 
+
+if __name__ == "__main__":
+  # test_asset_default_uid()
+  # test_asset_progressive_uids()
+  # test_asset_name_readonly()
+  # test_undefined_asset_uid()
+  test_asset_hash_and_eq()

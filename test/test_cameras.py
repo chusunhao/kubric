@@ -12,24 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytest
+# import pytest
 
 from kubric.core import cameras
 
 
 def test_orthographic_camera_constructor():
-  cam = cameras.OrthographicCamera(orthographic_scale=7)
-  assert cam.orthographic_scale == 7
+    cam = cameras.OrthographicCamera(orthographic_scale=7)
+    assert cam.orthographic_scale == 7
 
 
 def test_perspective_camera_constructor():
-  cam = cameras.PerspectiveCamera(focal_length=22, sensor_width=33)
-  assert cam.focal_length == 22
-  assert cam.sensor_width == 33
+    cam = cameras.PerspectiveCamera(focal_length=22, sensor_width=33)
+    assert cam.focal_length == 22
+    assert cam.sensor_width == 33
 
 
 def test_perspective_camera_field_of_view():
-  cam = cameras.PerspectiveCamera(focal_length=28, sensor_width=36)
-  assert cam.field_of_view == pytest.approx(1.1427, abs=1e-4)  # ca 65.5°
+    cam = cameras.PerspectiveCamera(focal_length=28, sensor_width=36)
+    assert cam.field_of_view == pytest.approx(1.1427, abs=1e-4)  # ca 65.5°
 
 
+if __name__ == "__main__":
+  test_orthographic_camera_constructor()
+  test_perspective_camera_constructor()
+  test_perspective_camera_field_of_view()

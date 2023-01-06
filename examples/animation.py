@@ -76,11 +76,11 @@ logging.basicConfig(level='INFO')
 parser = kb.ArgumentParser()
 FLAGS = parser.parse_args()
 
-tf.io.gfile.mkdir('examples/KuBasic/')
-tf.io.gfile.copy(
-    'gs://kubric-public/data/pose_estimation/AnimationExample.zip', 
-    'examples/KuBasic/AnimationExample.zip')
-shutil.unpack_archive('examples/KuBasic/AnimationExample.zip', 'examples/KuBasic')
+# tf.io.gfile.mkdir('examples/KuBasic/')
+# tf.io.gfile.copy(
+#     'gs://kubric-public/data/pose_estimation/AnimationExample.zip',
+#     'examples/KuBasic/AnimationExample.zip')
+# shutil.unpack_archive('examples/KuBasic/AnimationExample.zip', 'examples/KuBasic')
 
 scene = kb.Scene(resolution=(512, 512))
 scene.frame_end = 30

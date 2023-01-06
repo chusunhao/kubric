@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytest
-import hypothesis
-from hypothesis import strategies
+# import pytest
+# import hypothesis
+# from hypothesis import strategies
 
 from kubric.core import color
 
@@ -63,7 +63,7 @@ def test_hex_to_rgba_invalid():
 
 
 @hypothesis.given(strategies.tuples(strategies.floats(0.01, 0.99),
-                                    strategies.floats(0.01, 1.0), 
+                                    strategies.floats(0.01, 1.0),
                                     strategies.floats(0.01, 1.0)))
 def test_hsv_conversion_is_invertible(hsv):
   assert color.Color.from_hsv(*hsv).hsv == pytest.approx(hsv)
@@ -86,7 +86,7 @@ def test_hexstr_rgb_conversion_is_invertible(hexstr):
   assert color.Color.from_hexstr(hexstr).hexstr == hexstr + "ff"
 
 
-@hypothesis.given(strategies.text(alphabet="0123456789abcdef", min_size=8, max_size=8))
+# @hypothesis.given(strategies.text(alphabet="0123456789abcdef", min_size=8, max_size=8))
 def test_hexstr_rgba_conversion_is_invertible(hexstr):
   hexstr = "#" + hexstr
   assert color.Color.from_hexstr(hexstr).hexstr == hexstr
@@ -109,3 +109,7 @@ def test_get_color():
   assert color.get_color("#f0f").rgb == (1, 0, 1)
   assert color.get_color(0x00ff00).rgb == (0, 1, 0)
   assert color.get_color((1, 1, 1)).rgb == (1, 1, 1)
+
+
+if __name__ == "__main__":
+  test_get_color()
